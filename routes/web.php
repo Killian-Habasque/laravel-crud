@@ -20,4 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/hello/{id}', [HelloController::class, 'show']);
-Route::get('/articles', [ArticleController::class, 'show']);
+// Route::middleware(['auth'])->group(function () {
+    Route::resource('articles', ArticleController::class);
+
+// });

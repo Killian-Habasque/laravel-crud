@@ -9,6 +9,6 @@ class HelloController extends Controller
 {
     public function show(string $id): View
     {
-        return view('Hello', ['id' => $id]);
+        return view('hello', ['id' => $id]);
     }
 }
