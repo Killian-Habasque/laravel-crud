@@ -16,7 +16,7 @@ class ArticleController extends Controller
     }
     public function show(string $id): View
     {
-        return view('articles.profile', ['articles' => Article::findOrFail($id)]);
+        return view('articles.article', ['articles' => Article::findOrFail($id)]);
     }
     public function create(): View
     {
