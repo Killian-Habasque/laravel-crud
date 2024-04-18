@@ -6,6 +6,7 @@
     <fieldset>
         <h2>{{ $article->title }}</h2>
         <p>{{ $article->content }}</p>
+        <p>{{ $article->user->name }}</p>
         <div style="display: flex; gap: 20px;">
             <a href="{{ route('articles.show', $article->id) }}">Voir</a>
 

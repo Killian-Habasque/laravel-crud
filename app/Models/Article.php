@@ -14,10 +14,15 @@ class Article extends Model
         'title',
         'content',
         'user_id',
+        'category_id',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 }
