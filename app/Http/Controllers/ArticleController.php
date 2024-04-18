@@ -41,15 +41,15 @@ class ArticleController extends Controller
 
         Article::create($requestData);
     
-        return redirect()->route('articles.index')->with('success', 'Article créé avec succès.');
+        return redirect()->route('home')->with('success', 'Article créé avec succès.');
     }
 
     public function edit(Article $article): View
     {
         $user = Auth::user();
         $categories = Category::all();
-        
-        if($article->user_id == $user->id) {
+
+        if($article->user_id == $user->id || $user->role == 'admin') {
             return view('articles.edit', ['article' => $article, 'categories' => $categories]);
         } else {
             abort(403, 'Accès non autorisé');
@@ -65,13 +65,13 @@ class ArticleController extends Controller
 
         $article->update($request->all());
 
-        return redirect()->route('articles.index')->with('success', 'Article mis à jour avec succès.');
+        return redirect()->route('home')->with('success', 'Article mis à jour avec succès.');
     }
 
     public function destroy(Article $article): RedirectResponse
     {
         $article->delete();
 
-        return redirect()->route('articles.index')->with('success', 'Article supprimé avec succès.');
+        return redirect()->route('home')->with('success', 'Article supprimé avec succès.');
     }
 }

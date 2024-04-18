@@ -17,8 +17,9 @@ use App\Http\Controllers\CategoryController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $articles = \App\Models\Article::all(); 
+    return view('home', ['articles' => $articles]);
+})->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
