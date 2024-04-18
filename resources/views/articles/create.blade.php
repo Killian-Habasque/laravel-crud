@@ -4,7 +4,7 @@
     <div class="card-header">Créer un nouvel article</div>
 
     <form action="{{ route('articles.store') }}" method="POST">
-        @csrf {{-- Protection contre les attaques CSRF --}}
+        @csrf
 
         <div class="form-group">
             <label for="title">Titre</label>
@@ -17,8 +17,13 @@
         </div>
 
         <div class="form-group">
-            <label for="author">Auteur</label>
-            <input type="text" name="author" id="author" class="form-control" required>
+            <select name="category_id" id="category" class="form-control" required>
+                @foreach($categories as $category)
+                <option value="{{ $category->id }}">
+                    {{ $category->name }}
+                </option>
+                @endforeach
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary">Créer</button>

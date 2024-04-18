@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Article;
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 
 class ArticleController extends Controller
@@ -16,11 +18,12 @@ class ArticleController extends Controller
     }
     public function show(string $id): View
     {
-        return view('articles.article', ['articles' => Article::findOrFail($id)]);
+        return view('articles.article', ['article' => Article::findOrFail($id)]);
     }
     public function create(): View
     {
-        return view('articles.create');
+        $categories = Category::all();
+        return view('articles.create', ['categories' => $categories]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -28,25 +31,36 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
-            'author' => 'required|max:255',
+            'category_id' => 'required|max:255',
         ]);
+    
+        $user = Auth::user();
+    
+        $requestData = $request->all();
+        $requestData['user_id'] = $user->id;
 
-        Article::create($request->all());
-
+        Article::create($requestData);
+    
         return redirect()->route('articles.index')->with('success', 'Article créé avec succès.');
     }
 
     public function edit(Article $article): View
     {
-        return view('articles.edit', ['article' => $article]);
+        $user = Auth::user();
+        $categories = Category::all();
+        
+        if($article->user_id == $user->id) {
+            return view('articles.edit', ['article' => $article, 'categories' => $categories]);
+        } else {
+            abort(403, 'Accès non autorisé');
+        } 
     }
-
     public function update(Request $request, Article $article): RedirectResponse
     {
         $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
-            'author' => 'required|max:255',
+            'category_id' => 'required|max:255',
         ]);
 
         $article->update($request->all());

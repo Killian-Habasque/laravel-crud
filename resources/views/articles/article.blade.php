@@ -1,9 +1,8 @@
 <html>
 
 <body>
-    <h1>{{ $articles->title }}</h1>
-    <p>{{ $articles->content }}</p>
-
+    <h1>{{ $article->title }}</h1>
+    <p>{{ $article->content }}</p>
 </body>
 
 </html>
